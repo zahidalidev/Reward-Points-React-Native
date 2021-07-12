@@ -99,11 +99,11 @@ function UserScreen(props) {
 
     return (
         <View style={{ flex: 1 }} >
+            {/* appbar */}
             <AppBar {...props} />
-            <View style={styles.container}>
-                {/* appbar */}
 
-                {/* Main container */}
+            {/* Main container */}
+            <View style={styles.container}>
                 <View style={{ width: "90%", alignItems: "center", justifyContent: "center" }} >
 
                     {/* point container */}

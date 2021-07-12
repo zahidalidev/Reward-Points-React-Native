@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native"
 
 // screens
 import UserScreen from "./app/screens/UserScreen"
+import StaffScreen from "./app/screens/StaffScreen"
 
 // components
 import AppDrawer from './app/components/AppDrawer';
@@ -17,7 +18,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Drawer.Navigator
-        initialRouteName="UserScreen"
+        initialRouteName="StaffScreen"
         drawerType={"front"}
         overlayColor="transparent"
         edgeWidth={100}
@@ -28,6 +29,7 @@ export default function App() {
         drawerContent={(props) => <AppDrawer {...props} />}
       >
         <Drawer.Screen name="UserScreen" component={UserScreen} />
+        <Drawer.Screen name="StaffScreen" component={StaffScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

@@ -1,9 +1,9 @@
 const Colors = {
-    primary: "#ffc244",
-    secondary: "#008169",
+    primary: "#001D3B",
+    secondary: "#08AAC9",
+    lightPrimary: "rgba(0, 29, 59, 0.2)",
     lightSecondary: "rgba(0, 129, 105, 0.1)",
     mediumSecondary: "rgba(0, 129, 105, 0.5)",
-    lightPrimary: "rgba(255, 194, 68, 0.1)",
 
     black: "#000",
     white: "#fff",

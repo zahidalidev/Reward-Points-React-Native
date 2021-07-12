@@ -13,7 +13,7 @@ function AppBar(props) {
             <Appbar style={{ backgroundColor: Colors.primary, alignItems: "center", justifyContent: "center", }} >
                 <Appbar.Action color={Colors.white} onPress={() => props.navigation.openDrawer()} icon="menu" />
                 <View style={{ flex: 1, width: "80%", alignItems: "center", flexDirection: "row", justifyContent: "center" }} >
-                    <Appbar.Content style={{ marginLeft: "26%" }} titleStyle={{ fontSize: RFPercentage(2.8) }} title="App Name" />
+                    <Appbar.Content style={{ marginLeft: "26%" }} titleStyle={{ fontSize: RFPercentage(2.8) }} title="Reward Points" />
                 </View>
 
             </Appbar>

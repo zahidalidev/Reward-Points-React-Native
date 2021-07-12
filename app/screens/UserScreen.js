@@ -98,7 +98,8 @@ function UserScreen(props) {
     }, [])
 
     return (
-        <View style={{ flex: 1 }} >
+        <View style={{ flex: 1, marginTop: RFPercentage(1.5) }} >
+
             {/* appbar */}
             <AppBar {...props} />
 
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
         width: "100%",
         flex: 1,
         alignItems: "center",
-        backgroundColor: Colors.white
+        backgroundColor: Colors.white,
     }
 })
 

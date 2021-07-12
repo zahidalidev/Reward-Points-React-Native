@@ -69,7 +69,7 @@ function RegisterScreen(props) {
             password: feilds[3].value.trim()
         }
 
-        if (body.password !== feilds[5].value) {
+        if (body.password !== feilds[4].value) {
             alert("Check Password and Confirm Password");
             return;
         }
@@ -98,6 +98,7 @@ function RegisterScreen(props) {
 
         } catch (error) {
             alert("Registration Failed");
+            console.log("Registration error: ", error)
             setIndicator(false);
         }
     }

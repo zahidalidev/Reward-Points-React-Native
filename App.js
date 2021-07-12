@@ -1,4 +1,5 @@
 import React from 'react';
+import { LogBox } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer"
 import { NavigationContainer } from "@react-navigation/native"
 
@@ -13,6 +14,8 @@ import AppDrawer from './app/components/AppDrawer';
 
 // config
 import Colors from "./app/config/Colors"
+
+LogBox.ignoreLogs(['Setting a timer'])
 
 const Drawer = createDrawerNavigator();
 

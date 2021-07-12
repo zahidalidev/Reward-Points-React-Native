@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, View, Text } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import QRCode from 'react-native-qrcode-svg';
 
 // components
 import AppBar from "../components/common/AppBar"
@@ -75,6 +76,12 @@ function UserScreen(props) {
                             }
                         />
                     </View>
+
+                    {/* QR Code Container */}
+                    <QRCode
+                        value="http://awesome.link.qr"
+                    />
+
                 </View>
             </View>
         </View >

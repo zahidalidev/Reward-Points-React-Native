@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FlatList, StyleSheet, View, Text } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import QRCode from 'react-native-qrcode-svg';
@@ -11,6 +11,7 @@ import Colors from '../config/Colors';
 
 function UserScreen(props) {
 
+    const [qrCodeValue, setQrCodeValue] = useState(0);
     const [points, setPoints] = useState([
         {
             id: 0,
@@ -54,6 +55,34 @@ function UserScreen(props) {
         },
     ])
 
+    function charId(length) {
+        var result = '';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() *
+                charactersLength));
+        }
+        return result;
+    }
+
+    const generateRandomId = () => {
+        let date = new Date();
+        let sec = date.getSeconds();
+        let min = date.getMinutes();
+        let hour = date.getHours();
+        let day = date.getDay();
+        let month = date.getMonth();
+        let year = date.getFullYear();
+
+        let value = charId(2) + sec + min + hour + day + month + year + charId(3);
+        setQrCodeValue(value)
+    }
+
+    useEffect(() => {
+        generateRandomId()
+    }, [])
+
     return (
         <View style={{ flex: 1 }} >
             <AppBar {...props} />
@@ -78,9 +107,12 @@ function UserScreen(props) {
                     </View>
 
                     {/* QR Code Container */}
-                    <QRCode
-                        value="http://awesome.link.qr"
-                    />
+                    <View style={{ marginTop: RFPercentage(10) }} >
+                        <QRCode
+                            value={qrCodeValue}
+                            size={RFPercentage(26)}
+                        />
+                    </View>
 
                 </View>
             </View>
@@ -92,7 +124,8 @@ const styles = StyleSheet.create({
     container: {
         width: "100%",
         flex: 1,
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: Colors.white
     }
 })
 

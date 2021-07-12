@@ -12,7 +12,7 @@ import Colors from '../config/Colors';
 
 function UserScreen(props) {
 
-    const [qrCodeValue, setQrCodeValue] = useState(0);
+    const [qrCodeValue, setQrCodeValue] = useState('0');
     const [points, setPoints] = useState([
         {
             id: 0,

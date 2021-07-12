@@ -5,6 +5,8 @@ import { NavigationContainer } from "@react-navigation/native"
 // screens
 import UserScreen from "./app/screens/UserScreen"
 import StaffScreen from "./app/screens/StaffScreen"
+import LoginScreen from './app/screens/LoginScreen';
+import RegisterScreen from './app/screens/RegisterScreen';
 
 // components
 import AppDrawer from './app/components/AppDrawer';
@@ -18,7 +20,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Drawer.Navigator
-        initialRouteName="StaffScreen"
+        initialRouteName="LoginScreen"
         drawerType={"front"}
         overlayColor="transparent"
         edgeWidth={100}
@@ -28,6 +30,8 @@ export default function App() {
         }}
         drawerContent={(props) => <AppDrawer {...props} />}
       >
+        <Drawer.Screen name="LoginScreen" component={LoginScreen} />
+        <Drawer.Screen name="RegisterScreen" component={RegisterScreen} />
         <Drawer.Screen name="UserScreen" component={UserScreen} />
         <Drawer.Screen name="StaffScreen" component={StaffScreen} />
       </Drawer.Navigator>

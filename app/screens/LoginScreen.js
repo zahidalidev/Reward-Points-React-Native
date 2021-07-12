@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Platform, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { Platform, StyleSheet, Text, View, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Constants from 'expo-constants'
 import { RFPercentage } from 'react-native-responsive-fontsize';
@@ -135,6 +135,9 @@ function LoginScreen(props) {
                                 width="100%"
                                 height={RFPercentage(5.5)}
                             />
+                            <TouchableOpacity onPress={() => props.navigation.navigate('UserScreen')} style={{ marginRight: RFPercentage(1), marginTop: RFPercentage(1) }}>
+                                <Text style={{ fontSize: RFPercentage(2.6), color: colors.secondary }} >Skip {'>'} </Text>
+                            </TouchableOpacity>
                         </View>
 
                     </View>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FlatList, StyleSheet, View, Text } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import QRCode from 'react-native-qrcode-svg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // components
 import AppBar from "../components/common/AppBar"
@@ -66,17 +67,30 @@ function UserScreen(props) {
         return result;
     }
 
-    const generateRandomId = () => {
-        let date = new Date();
-        let sec = date.getSeconds();
-        let min = date.getMinutes();
-        let hour = date.getHours();
-        let day = date.getDay();
-        let month = date.getMonth();
-        let year = date.getFullYear();
+    const generateRandomId = async () => {
+        try {
+            let userId = await AsyncStorage.getItem('userId');
+            if (!userId) {
+                let date = new Date();
+                let sec = date.getSeconds();
+                let min = date.getMinutes();
+                let hour = date.getHours();
+                let day = date.getDay();
+                let month = date.getMonth();
+                let year = date.getFullYear();
 
-        let value = charId(2) + sec + min + hour + day + month + year + charId(3);
-        setQrCodeValue(value)
+                userId = charId(2) + sec + min + hour + day + month + year + charId(3);
+                await AsyncStorage.setItem('userId', JSON.stringify(userId));
+                setQrCodeValue(userId)
+                return;
+            }
+            setQrCodeValue(JSON.parse(userId))
+
+        } catch (error) {
+            console.log("Id generation error: ", error);
+            alert("Id generation error");
+        }
+
     }
 
     useEffect(() => {

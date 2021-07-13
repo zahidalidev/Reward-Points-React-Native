@@ -19,8 +19,24 @@ export const addUser = async (body, type, uri) => {
     return false;
 }
 
-export const loginUser = async (email, password, notificationToken) => {
+export const loginUser = async (email, password) => {
     const snapshot = await userRef.where('email', '==', email).where('password', '==', password).get();
+    if (snapshot.empty) {
+        return false;
+    }
+
+    let res = {}
+    snapshot.forEach(doc => {
+        res = doc.data()
+        res.docId = doc.id
+    });
+
+    return res;
+
+}
+
+export const getUserById = async (id) => {
+    const snapshot = await userRef.where('id', '==', id).get();
     if (snapshot.empty) {
         return false;
     }

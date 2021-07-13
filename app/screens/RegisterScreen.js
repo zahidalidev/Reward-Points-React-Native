@@ -14,6 +14,7 @@ import { addUser } from '../services/UserServices';
 
 // config
 import colors from '../config/Colors';
+import GenerateRandomId from '../components/utils/RandomId';
 
 function RegisterScreen(props) {
     const [indicator, setIndicator] = useState(false);
@@ -63,10 +64,13 @@ function RegisterScreen(props) {
             clearTimeout(i);
         }
 
+        let userIdQr = await GenerateRandomId();
+
         const body = {
             name: feilds[0].value.trim() + ' ' + feilds[1].value.trim(),
             email: feilds[2].value.trim().toLowerCase(),
-            password: feilds[3].value.trim()
+            password: feilds[3].value.trim(),
+            id: userIdQr
         }
 
         if (body.password !== feilds[4].value) {

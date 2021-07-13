@@ -11,7 +11,8 @@ import AccountText from '../components/common/AccountText';
 
 import colors from '../config/Colors';
 
-import { loginUser } from '../services/UserServices';
+import { getUserById, loginUser } from '../services/UserServices';
+import GenerateRandomId from '../components/utils/RandomId';
 
 function LoginScreen(props) {
     const [indicator, setIndicator] = useState(false);
@@ -87,6 +88,22 @@ function LoginScreen(props) {
         validateCurrentUser();
     }, [props.route.params]);
 
+    const handleSkip = async () => {
+        try {
+            setIndicator(true)
+            let id = await GenerateRandomId();
+            let res = await getUserById(id)
+            if (res) {
+                await AsyncStorage.removeItem('user');
+                await AsyncStorage.setItem('user', JSON.stringify(res));
+                setIndicator(false)
+            }
+            props.navigation.navigate('UserScreen');
+        } catch (error) {
+
+        }
+    }
+
     return (
         <View style={styles.container}>
             <StatusBar style="light" backgroundColor={colors.primary} />
@@ -135,8 +152,8 @@ function LoginScreen(props) {
                                 width="100%"
                                 height={RFPercentage(5.5)}
                             />
-                            <TouchableOpacity onPress={() => props.navigation.navigate('UserScreen')} style={{ marginRight: RFPercentage(1), marginTop: RFPercentage(1) }}>
-                                <Text style={{ fontSize: RFPercentage(2.6), color: colors.secondary }} >Skip {'>'} </Text>
+                            <TouchableOpacity onPress={() => handleSkip()} style={{ marginRight: RFPercentage(1), marginTop: RFPercentage(1) }}>
+                                <Text style={{ fontSize: RFPercentage(2.6), color: colors.secondary, fontWeight: "bold" }} >Skip</Text>
                             </TouchableOpacity>
                         </View>
 

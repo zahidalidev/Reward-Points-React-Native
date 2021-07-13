@@ -11,7 +11,7 @@ import AccountText from '../components/common/AccountText';
 
 import colors from '../config/Colors';
 
-import { getUserById, loginUser } from '../services/UserServices';
+import { addUserId, getUserById, loginUser } from '../services/UserServices';
 import GenerateRandomId from '../components/utils/RandomId';
 
 function LoginScreen(props) {
@@ -97,6 +97,8 @@ function LoginScreen(props) {
                 await AsyncStorage.removeItem('user');
                 await AsyncStorage.setItem('user', JSON.stringify(res));
                 setIndicator(false)
+            } else {
+                await addUserId({ id: id, points: 0 })
             }
             props.navigation.navigate('UserScreen');
         } catch (error) {

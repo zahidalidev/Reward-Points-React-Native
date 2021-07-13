@@ -11,7 +11,7 @@ const firestore = firebase.firestore();
 const userRef = firestore.collection('users')
 
 
-export const addUser = async (body, type, uri) => {
+export const addUser = async (body) => {
     const snapshot = await userRef.where('email', '==', body.email).get();
     if (snapshot.empty) {
         return await userRef.add(body);
@@ -35,6 +35,15 @@ export const loginUser = async (email, password) => {
 
 }
 
+export const addUserId = async (body) => {
+    const snapshot = await userRef.where('id', '==', body.id).get();
+    if (snapshot.empty) {
+        return await userRef.add(body);
+    }
+    return false;
+}
+
+
 export const getUserById = async (id) => {
     const snapshot = await userRef.where('id', '==', id).get();
     if (snapshot.empty) {
@@ -48,7 +57,6 @@ export const getUserById = async (id) => {
     });
 
     return res;
-
 }
 
 export const getUserRef = () => {

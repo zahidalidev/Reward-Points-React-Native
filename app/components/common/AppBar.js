@@ -48,12 +48,12 @@ function AppBar(props) {
             <Appbar style={{ marginTop: Constants.statusBarHeight, backgroundColor: Colors.primary, alignItems: "center", justifyContent: "center", }} >
                 <Appbar.Action color={Colors.white} onPress={() => props.navigation.openDrawer()} icon="menu" />
                 <View style={{ flex: 1, width: "80%", alignItems: "center", flexDirection: "row", justifyContent: "center" }} >
-                    <Appbar.Content style={{ marginLeft: currentUser ? "28%" : "26%" }} titleStyle={{ fontSize: RFPercentage(2.8) }} title="Reward Points" />
+                    <Appbar.Content style={{ marginLeft: "28%" }} titleStyle={{ fontSize: RFPercentage(2.8) }} title="Reward Points" />
                 </View>
-                {
-                    currentUser ?
-                        <Appbar.Action color={Colors.white} onPress={() => handleLogout()} icon="import" /> : null
-                }
+                {/* {
+                    currentUser ? */}
+                <Appbar.Action color={Colors.white} onPress={() => handleLogout()} icon="import" />
+                {/* } */}
             </Appbar>
         </View>
     );

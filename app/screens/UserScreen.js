@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, StyleSheet, View, Text } from 'react-native';
+import { FlatList, StyleSheet, View, Text, RefreshControl, ScrollView } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import QRCode from 'react-native-qrcode-svg';
 
@@ -14,6 +14,7 @@ import { getUserById, getUserRef } from '../services/UserServices';
 
 function UserScreen(props) {
 
+    const [refreshing, setRefreshing] = useState(false);
     const [qrCodeValue, setQrCodeValue] = useState('0');
     const [points, setPoints] = useState([
         {
@@ -57,6 +58,12 @@ function UserScreen(props) {
             point: false
         },
     ])
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        getId()
+        setRefreshing(false);
+    }, []);
 
     const getId = async () => {
         try {
@@ -122,39 +129,47 @@ function UserScreen(props) {
     }, [])
 
     return (
-        <View style={{ flex: 1 }} >
+        <View style={{ flex: 1, backgroundColor: Colors.white }} >
 
             {/* appbar */}
             <AppBar {...props} />
 
             {/* Main container */}
-            <View style={styles.container}>
-                <View style={{ width: "90%", alignItems: "center", justifyContent: "center" }} >
+            <ScrollView refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                />}
+                style={{ backgroundColor: Colors.white, }}
+            >
+                <View style={styles.container}>
+                    <View style={{ width: "90%", alignItems: "center", justifyContent: "center" }} >
 
-                    {/* point container */}
-                    <View style={{ marginTop: RFPercentage(6), borderWidth: 1.5, borderColor: Colors.mediumGrey, borderRadius: 10, padding: RFPercentage(2), width: "100%", alignItems: "center", justifyContent: "center" }} >
-                        <FlatList
-                            data={points}
-                            numColumns={5}
-                            keyExtractor={(item) => item.id}
-                            renderItem={(data) =>
-                                <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: data.item.point ? Colors.primary : null, margin: RFPercentage(1), width: "20%", borderRadius: RFPercentage(10), height: RFPercentage(5.5), width: RFPercentage(5.5), borderWidth: 1, borderColor: Colors.mediumGrey }} >
-                                    <Text style={{ fontSize: RFPercentage(2.6), color: data.item.point ? Colors.white : Colors.primary, }} >{data.item.id + 1}</Text>
-                                </View>
-                            }
-                        />
+                        {/* point container */}
+                        <View style={{ marginTop: RFPercentage(6), borderWidth: 1.5, borderColor: Colors.mediumGrey, borderRadius: 10, padding: RFPercentage(2), width: "100%", alignItems: "center", justifyContent: "center" }} >
+                            <FlatList
+                                data={points}
+                                numColumns={5}
+                                keyExtractor={(item) => item.id}
+                                renderItem={(data) =>
+                                    <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: data.item.point ? Colors.primary : null, margin: RFPercentage(1), width: "20%", borderRadius: RFPercentage(10), height: RFPercentage(5.5), width: RFPercentage(5.5), borderWidth: 1, borderColor: Colors.mediumGrey }} >
+                                        <Text style={{ fontSize: RFPercentage(2.6), color: data.item.point ? Colors.white : Colors.primary, }} >{data.item.id + 1}</Text>
+                                    </View>
+                                }
+                            />
+                        </View>
+
+                        {/* QR Code Container */}
+                        <View style={{ marginTop: RFPercentage(10) }} >
+                            <QRCode
+                                value={qrCodeValue}
+                                size={RFPercentage(26)}
+                            />
+                        </View>
+
                     </View>
-
-                    {/* QR Code Container */}
-                    <View style={{ marginTop: RFPercentage(10) }} >
-                        <QRCode
-                            value={qrCodeValue}
-                            size={RFPercentage(26)}
-                        />
-                    </View>
-
                 </View>
-            </View>
+            </ScrollView>
         </View >
     );
 }

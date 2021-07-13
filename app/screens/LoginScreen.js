@@ -70,6 +70,7 @@ function LoginScreen(props) {
         // await AsyncStorage.removeItem('user');
         try {
             let res = await AsyncStorage.getItem('user');
+            res = JSON.parse(res)
             if (res) {
                 if (res.role === 'staff') {
                     props.navigation.navigate('StaffScreen')

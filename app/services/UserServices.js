@@ -65,20 +65,20 @@ export const getUserRef = () => {
 
 export const updateUser = async (id, body) => {
     try {
-        await userRef.doc(id).update(body)
 
-        const snapshot2 = await userRef.where('email', '==', body.email).where('password', '==', body.password).get();
+        const snapshot2 = await userRef.where('id', '==', id).get();
         if (snapshot2.empty) {
             return false;
         }
 
-        let res2 = {}
+        let docId = ''
         snapshot2.forEach(doc => {
-            res2 = doc.data()
-            res2.docId = doc.id
+            docId = doc.id
         });
 
-        return res2;
+        await userRef.doc(docId).update(body)
+
+        return true;
     } catch (error) {
         return false
     }

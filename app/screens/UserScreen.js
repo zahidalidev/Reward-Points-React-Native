@@ -68,6 +68,7 @@ function UserScreen(props) {
     const getId = async () => {
         try {
             let user = await AsyncStorage.getItem('user');
+            console.log("user12: ", user)
             if (user) {
                 user = JSON.parse(user);
                 setQrCodeValue(user.id)
@@ -162,7 +163,7 @@ function UserScreen(props) {
                         {/* QR Code Container */}
                         <View style={{ marginTop: RFPercentage(10) }} >
                             <QRCode
-                                value={qrCodeValue}
+                                value={qrCodeValue ? qrCodeValue : '0'}
                                 size={RFPercentage(26)}
                             />
                         </View>

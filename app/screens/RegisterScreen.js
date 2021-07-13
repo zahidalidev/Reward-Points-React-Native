@@ -70,7 +70,7 @@ function RegisterScreen(props) {
             name: feilds[0].value.trim() + ' ' + feilds[1].value.trim(),
             email: feilds[2].value.trim().toLowerCase(),
             password: feilds[3].value.trim(),
-            id: userIdQr
+            ...userIdQr
         }
 
         if (body.password !== feilds[4].value) {

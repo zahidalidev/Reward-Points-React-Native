@@ -16,6 +16,7 @@ import AppDrawer from './app/components/AppDrawer';
 import Colors from "./app/config/Colors"
 
 LogBox.ignoreLogs(['Setting a timer'])
+LogBox.ignoreAllLogs()
 
 const Drawer = createDrawerNavigator();
 

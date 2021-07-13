@@ -15,37 +15,33 @@ function AppDrawer({ navigation }) {
                 label="Home"
                 icon="home"
                 active={active === 'second'}
-                onPress={() => navigation.navigate('Home')}
+                onPress={() => navigation.navigate('LoginScreen')}
             />
             <Divider />
             <Drawer.Item
                 label="Features"
             />
-
             <Drawer.Item
-                label="Image To Text"
+                label="Login"
                 icon="camera"
                 active={active === 'second'}
-                onPress={() => navigation.navigate('Home')}
+                onPress={() => navigation.navigate('LoginScreen')}
             />
             <Drawer.Item
-                label="Listen"
+                label="Login"
                 icon="volume-high"
                 active={active === 'third'}
-                onPress={() => navigation.navigate("TextToVoice")}
+                onPress={() => navigation.navigate("LoginScreen")}
 
             />
             <Drawer.Item
-                label="Translate"
+                label="Login"
                 icon="translate"
                 active={active === 'third'}
-                onPress={() => navigation.navigate("TranslateScreen")}
+                onPress={() => navigation.navigate("LoginScreen")}
 
             />
-            <Divider />
-            <Drawer.Item
-                label="Extras"
-            />
+
         </Drawer.Section>
     );
 }

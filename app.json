@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "qrpoint",
-    "slug": "qrpoint",
+    "name": "Reward Points",
+    "slug": "rewardpoints",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

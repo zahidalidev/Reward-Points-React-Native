@@ -51,6 +51,10 @@ export const getUserById = async (id) => {
 
 }
 
+export const getUserRef = () => {
+    return userRef;
+}
+
 export const updateUser = async (id, body) => {
     try {
         await userRef.doc(id).update(body)

@@ -102,6 +102,7 @@ function LoginScreen(props) {
         } catch (error) {
 
         }
+        setIndicator(false)
     }
 
     return (

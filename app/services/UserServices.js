@@ -14,7 +14,20 @@ const userRef = firestore.collection('users')
 export const addUser = async (body) => {
     const snapshot = await userRef.where('email', '==', body.email).get();
     if (snapshot.empty) {
-        return await userRef.add(body);
+        await userRef.add(body);
+
+        const snapshot = await userRef.where('email', '==', body.email).get();
+        if (snapshot.empty) {
+            return false;
+        }
+
+        let res = {}
+        snapshot.forEach(doc => {
+            res = doc.data()
+            res.docId = doc.id
+        });
+
+        return res;
     }
     return false;
 }
@@ -77,8 +90,12 @@ export const updateUser = async (id, body) => {
         });
 
         await userRef.doc(docId).update(body)
-
-        return true;
+        const newRs = await getUserById(id)
+        if (newRs) {
+            return newRs;
+        } else {
+            return false;
+        }
     } catch (error) {
         return false
     }

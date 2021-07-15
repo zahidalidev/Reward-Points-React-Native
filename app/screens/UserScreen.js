@@ -8,7 +8,6 @@ import AppBar from "../components/common/AppBar"
 
 // config
 import Colors from '../config/Colors';
-import GenerateRandomId from '../components/utils/RandomId';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getUserById, getUserRef } from '../services/UserServices';
 
@@ -62,13 +61,14 @@ function UserScreen(props) {
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         getId()
+        getUpdatedPoints()
         setRefreshing(false);
     }, []);
 
     const getId = async () => {
         try {
             let user = await AsyncStorage.getItem('user');
-            console.log("user12: ", user)
+            console.log("user screen userId: ", user)
             if (user) {
                 user = JSON.parse(user);
                 setQrCodeValue(user.id)
@@ -83,9 +83,7 @@ function UserScreen(props) {
                     newPoints[i].point = true;
                 }
                 setPoints(newPoints)
-                console.log("newPoints: ", user.points, newPoints)
             }
-            console.log(user)
         } catch (error) {
 
         }
@@ -93,40 +91,55 @@ function UserScreen(props) {
 
     const getUpdatedPoints = async () => {
         let user = await AsyncStorage.getItem('user');
-        if (user) {
-            user = JSON.parse(user);
-        }
-        try {
-            let userRef = await getUserRef();
+        user = JSON.parse(user);
+        console.log("user screen: ", user)
+        if (user.id) {
 
-            const observer = userRef.onSnapshot(querySnapshot => {
-                querySnapshot.docChanges().forEach(async (change) => {
+            try {
+                let userRef = await getUserRef();
 
-                    let userUpdated = await getUserById(user.id);
-                    if (userUpdated) {
-                        let newPoints = [...points];
+                const observer = userRef.onSnapshot(querySnapshot => {
+                    querySnapshot.docChanges().forEach(async (change) => {
 
-                        for (let i = 0; i < 9; i++) {
-                            newPoints[i].point = false;
+                        let userUpdated = await getUserById(user.id);
+                        if (userUpdated) {
+                            let newPoints = [...points];
+
+                            for (let i = 0; i < 9; i++) {
+                                newPoints[i].point = false;
+                            }
+
+                            for (let i = 0; i < userUpdated.points; i++) {
+                                newPoints[i].point = true;
+                            }
+
+                            await AsyncStorage.removeItem('points')
+                            await AsyncStorage.setItem('user', JSON.stringify(userUpdated))
+                            await AsyncStorage.setItem('points', JSON.stringify(userUpdated.points))
+
+                            setPoints(newPoints)
                         }
 
-                        for (let i = 0; i < userUpdated.points; i++) {
-                            newPoints[i].point = true;
-                        }
-                        setPoints(newPoints)
-                    }
-
+                    });
                 });
-            });
-        } catch (error) {
-            console.log("User found: ", error)
+            } catch (error) {
+                console.log("User found: ", error)
+            }
         }
         // setRefreshing(false)
     }
 
     useEffect(() => {
-        getId()
-        getUpdatedPoints()
+        let interval = setInterval(
+            async () => {
+                await getId()
+                await getUpdatedPoints()
+            }, 2000);
+
+        return (() => {
+            clearInterval(interval)
+            console.log("clearInterval")
+        })
     }, [])
 
     return (

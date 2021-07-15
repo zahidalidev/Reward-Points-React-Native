@@ -10,11 +10,12 @@ import AppTextButton from '../components/common/AppTextButton';
 import AccountText from '../components/common/AccountText';
 
 // services
-import { addUser } from '../services/UserServices';
+import { addUser, updateUser } from '../services/UserServices';
 
 // config
 import colors from '../config/Colors';
 import GenerateRandomId from '../components/utils/RandomId';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function RegisterScreen(props) {
     const [indicator, setIndicator] = useState(false);
@@ -59,9 +60,15 @@ function RegisterScreen(props) {
     }
 
     const handleSubmit = async () => {
-        const highestTimeoutId = setTimeout(() => ';');
-        for (let i = 0; i < highestTimeoutId; i++) {
-            clearTimeout(i);
+        // const highestTimeoutId = setTimeout(() => ';');
+        // for (let i = 0; i < highestTimeoutId; i++) {
+        //     clearTimeout(i);
+        // }
+
+        let points = await AsyncStorage.getItem('points');
+        points = JSON.parse(points);
+        if (!points) {
+            points = 0;
         }
 
         let userIdQr = await GenerateRandomId();
@@ -70,7 +77,8 @@ function RegisterScreen(props) {
             name: feilds[0].value.trim() + ' ' + feilds[1].value.trim(),
             email: feilds[2].value.trim().toLowerCase(),
             password: feilds[3].value.trim(),
-            ...userIdQr
+            id: userIdQr.id.id,
+            points
         }
 
         if (body.password !== feilds[4].value) {
@@ -86,19 +94,28 @@ function RegisterScreen(props) {
         setIndicator(true);
 
         try {
-            const res = await addUser(body);
+            let res;
+            if (userIdQr.update) {
+                res = await updateUser(body.id, body);
+            } else {
+                res = await addUser(body);
+            }
             if (!res) {
                 alert("Registration Failed");
                 setIndicator(false);
                 return;
             }
 
-            setIndicator(false);
-            alert("Registration Successful");
+            await AsyncStorage.setItem('user', JSON.stringify(res));
+            setIndicator(false)
 
-            setTimeout(() => {
-                props.navigation.navigate('LoginScreen')
-            }, 2000)
+            if (res.role === 'staff') {
+                props.navigation.navigate('StaffScreen')
+            } else {
+                props.navigation.navigate('UserScreen')
+            }
+
+            alert("Registration Successful");
 
         } catch (error) {
             alert("Registration Failed");

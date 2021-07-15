@@ -14,6 +14,7 @@ const charId = length => {
 const GenerateRandomId = async () => {
     try {
         let userId = await AsyncStorage.getItem('user');
+        console.log("old: ", userId)
         if (!userId) {
             let date = new Date();
             let sec = date.getSeconds();
@@ -24,17 +25,14 @@ const GenerateRandomId = async () => {
             let year = date.getFullYear();
 
             userId = charId(2) + sec + min + hour + day + month + year + charId(3);
-            await AsyncStorage.setItem('user', JSON.stringify({ id: userId, points: 0 }));
-            return userId
+            return { id: userId, update: false }
         }
-        return JSON.parse(userId);
-
+        return { id: JSON.parse(userId), update: true };
 
     } catch (error) {
         console.log("Id generation error: ", error);
         alert("Id generation error");
     }
-
 }
 
 export default GenerateRandomId;

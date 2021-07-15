@@ -68,9 +68,11 @@ function LoginScreen(props) {
     // get user from AsyncStorage to confirm login or logout
     let validateCurrentUser = async () => {
         // await AsyncStorage.removeItem('user');
+        // await AsyncStorage.removeItem('points');
         try {
             let res = await AsyncStorage.getItem('user');
             res = JSON.parse(res)
+            console.log("res: ", res)
             if (res) {
                 if (res.role === 'staff') {
                     props.navigation.navigate('StaffScreen')
@@ -92,18 +94,25 @@ function LoginScreen(props) {
     const handleSkip = async () => {
         try {
             setIndicator(true)
-            let id = await GenerateRandomId();
+            let user = await GenerateRandomId();
+            id = user.id
             let res = await getUserById(id)
+            console.log("Uodated: ", res)
             if (res) {
                 await AsyncStorage.removeItem('user');
                 await AsyncStorage.setItem('user', JSON.stringify(res));
                 setIndicator(false)
             } else {
-                await addUserId({ id: id, points: 0 })
+                // console.log("user: ski: ", user)
+                if (!user.update) {
+                    await addUserId({ id: id, points: 0, update: true })
+                    await AsyncStorage.setItem('user', JSON.stringify({ id: id, points: 0, update: true }));
+                }
             }
             props.navigation.navigate('UserScreen');
         } catch (error) {
-
+            console.log("skip error: ", error)
+            setIndicator(false)
         }
         setIndicator(false)
     }

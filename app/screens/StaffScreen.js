@@ -30,11 +30,13 @@ function StaffScreen(props) {
             let user = await getUserById(data);
             if (!user) {
                 alert("User not found")
+                console.log("qr id scan user error1: ", user)
                 return;
             }
             setUserId(user.id);
             setQrCodePoints(parseInt(user.points))
         } catch (error) {
+            console.log("qr id scan user error: ", error)
             alert("User not found")
         }
         setShowScanner(false)

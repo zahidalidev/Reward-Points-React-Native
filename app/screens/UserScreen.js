@@ -105,7 +105,7 @@ function UserScreen(props) {
                         if (userUpdated) {
                             let newPoints = [...points];
 
-                            for (let i = 0; i < 9; i++) {
+                            for (let i = 0; i < 10; i++) {
                                 newPoints[i].point = false;
                             }
 

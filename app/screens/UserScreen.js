@@ -68,14 +68,14 @@ function UserScreen(props) {
     const getId = async () => {
         try {
             let user = await AsyncStorage.getItem('user');
-            console.log("user screen userId: ", user)
-            if (user) {
-                user = JSON.parse(user);
+            // console.log("user screen userId: ", user)
+            user = JSON.parse(user);
+            if (user.id) {
                 setQrCodeValue(user.id)
 
                 let newPoints = [...points];
 
-                for (let i = 0; i < 9; i++) {
+                for (let i = 0; i < 10; i++) {
                     newPoints[i].point = false;
                 }
 
@@ -92,7 +92,6 @@ function UserScreen(props) {
     const getUpdatedPoints = async () => {
         let user = await AsyncStorage.getItem('user');
         user = JSON.parse(user);
-        console.log("user screen: ", user)
         if (user.id) {
 
             try {
@@ -129,18 +128,25 @@ function UserScreen(props) {
         // setRefreshing(false)
     }
 
-    useEffect(() => {
-        let interval = setInterval(
-            async () => {
-                await getId()
-                await getUpdatedPoints()
-            }, 2000);
+    const getValues = async () => {
+        console.log("id.")
+        await getId()
+        await getUpdatedPoints()
+    }
 
-        return (() => {
-            clearInterval(interval)
-            console.log("clearInterval")
-        })
-    }, [])
+    let interval;
+    useEffect(() => {
+        console.log("value..............")
+        getValues()
+
+        // interval = setTimeout(async () => {
+        //     await getValues()
+        // }, 2000);
+
+        return () => {
+            console.log("cear..........")
+        };
+    }, [props.route.params])
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.white }} >

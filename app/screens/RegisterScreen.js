@@ -112,7 +112,7 @@ function RegisterScreen(props) {
             if (res.role === 'staff') {
                 props.navigation.navigate('StaffScreen')
             } else {
-                props.navigation.navigate('UserScreen')
+                props.navigation.navigate('UserScreen', { user: res })
             }
 
             alert("Registration Successful");

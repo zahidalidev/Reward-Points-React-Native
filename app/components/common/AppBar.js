@@ -4,6 +4,7 @@ import { Appbar } from 'react-native-paper';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import Constants from "expo-constants"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Restart } from "fiction-expo-restart"
 
 // config
 import Colors from '../../config/Colors';
@@ -16,6 +17,7 @@ function AppBar(props) {
         try {
             await AsyncStorage.removeItem('user');
             await AsyncStorage.removeItem('points');
+            Restart()
             props.navigation.navigate('LoginScreen')
         } catch (error) {
 
@@ -25,7 +27,7 @@ function AppBar(props) {
     const getCurrentUser = async () => {
         try {
             let user = await AsyncStorage.getItem('user');
-            console.log("use1: ", user)
+            // console.log("use1: ", user)
             if (user) {
                 user = JSON.parse(user);
                 if (user.email) {
@@ -42,13 +44,12 @@ function AppBar(props) {
 
     const handleSignUp = async () => {
         props.navigation.navigate('RegisterScreen')
-        let user = await AsyncStorage.getItem('user');
-        console.log("apbar: ", user)
+        // let user = await AsyncStorage.getItem('user');
     }
 
     useEffect(() => {
         getCurrentUser();
-    }, [])
+    })
 
     return (
         <View  >

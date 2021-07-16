@@ -49,13 +49,14 @@ function LoginScreen(props) {
                 alert("Email or Password is incorrect")
                 return;
             }
+            await AsyncStorage.removeItem('user');
             await AsyncStorage.setItem('user', JSON.stringify(res));
             setIndicator(false)
 
             if (res.role === 'staff') {
                 props.navigation.navigate('StaffScreen')
             } else {
-                props.navigation.navigate('UserScreen')
+                props.navigation.navigate('UserScreen', { user: res })
             }
 
         } catch (error) {
@@ -72,12 +73,11 @@ function LoginScreen(props) {
         try {
             let res = await AsyncStorage.getItem('user');
             res = JSON.parse(res)
-            console.log("res: ", res)
             if (res) {
                 if (res.role === 'staff') {
                     props.navigation.navigate('StaffScreen')
                 } else {
-                    props.navigation.navigate('UserScreen')
+                    props.navigation.navigate('UserScreen', { user: res })
                 }
                 return;
             }
@@ -101,15 +101,17 @@ function LoginScreen(props) {
             if (res) {
                 await AsyncStorage.removeItem('user');
                 await AsyncStorage.setItem('user', JSON.stringify(res));
+                props.navigation.navigate('UserScreen', { user: res })
                 setIndicator(false)
             } else {
                 // console.log("user: ski: ", user)
                 if (!user.update) {
                     await addUserId({ id: id, points: 0, update: true })
+                    await AsyncStorage.removeItem('user');
                     await AsyncStorage.setItem('user', JSON.stringify({ id: id, points: 0, update: true }));
+                    props.navigation.navigate('UserScreen', { user: { id: id, points: 0, update: true } });
                 }
             }
-            props.navigation.navigate('UserScreen');
         } catch (error) {
             console.log("skip error: ", error)
             setIndicator(false)

@@ -26,10 +26,12 @@ function StaffScreen(props) {
     }, []);
 
     const handleBarCodeScanned = async ({ type, data }) => {
+        setShowScanner(false)
         try {
             let user = await getUserById(data);
+            console.log("user db: ", user)
             if (!user) {
-                alert("User not found")
+                alert("User not found in the Database")
                 console.log("qr id scan user error1: ", user)
                 return;
             }
@@ -39,7 +41,6 @@ function StaffScreen(props) {
             console.log("qr id scan user error: ", error)
             alert("User not found")
         }
-        setShowScanner(false)
     };
 
     const updatePoints = async () => {

@@ -14,7 +14,6 @@ const charId = length => {
 const GenerateRandomId = async () => {
     try {
         let userId = await AsyncStorage.getItem('user');
-        console.log("old: ", userId)
         if (!userId) {
             let date = new Date();
             let sec = date.getSeconds();

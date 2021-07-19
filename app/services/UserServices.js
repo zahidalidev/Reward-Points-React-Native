@@ -56,7 +56,6 @@ export const addUserId = async (body) => {
     return false;
 }
 
-
 export const getUserById = async (id) => {
     const snapshot = await userRef.where('id', '==', id).get();
     if (snapshot.empty) {
@@ -78,7 +77,6 @@ export const getUserRef = () => {
 
 export const updateUser = async (id, body) => {
     try {
-
         const snapshot2 = await userRef.where('id', '==', id).get();
         if (snapshot2.empty) {
             return false;
@@ -97,6 +95,7 @@ export const updateUser = async (id, body) => {
             return false;
         }
     } catch (error) {
+        console.log("update user error services: ", error)
         return false
     }
 }
